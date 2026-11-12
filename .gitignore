@@ -1,0 +1,19 @@
+# Editor (its own repository: mesh-avatar-studio-jahic)
+mesh-avatar-studio/
+
+# Large media: back up separately
+*.wav
+*.mp3
+*.mov
+*.mp4
+*.png
+*.jpg
+*.mavatar
+
+# Content (public repository): scripts and per-video material stay local
+JAHIC_*.txt
+proj-*/
+
+# Tools
+__pycache__/
+.claude/
