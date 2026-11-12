@@ -3,7 +3,7 @@
 このフォルダは、Mesh Avatar Studio で作ったアバターを使って「JAHIC ニュースチャンネル」向けの YouTube 解説動画（アバター1人のナレーション、または2人の掛け合い）を作るための作業場所です。git リポジトリは2つに分かれている:
 
 - このフォルダ: `https://github.com/kounishi/avatar-gen-001`（**公開**、`main`）。`mesh-avatar-studio/`、音声・画像・動画・`.mavatar`、台本（`JAHIC_*.txt`）、`proj-*/` は `.gitignore` で除外。公開リポジトリなので、台本・セリフ・社外秘の情報はコミットしない。
-- `mesh-avatar-studio/`: `https://github.com/kounishi/mesh-avatar-studio-jahic`（**公開**、`jahic` ブランチ）。本家は `upstream`（<https://github.com/shinshin86/mesh-avatar-studio>）。本家の更新は `git fetch upstream` → `git merge upstream/main` で取り込む。本家へは push しない。
+- `mesh-avatar-studio/`: `https://github.com/kounishi/mesh-avatar-studio-lipsync`（**公開**、`main` ブランチ）。公開リポジトリなので、名前・コミット・コードに JAHIC などの案件名を入れない。本家は `upstream`（<https://github.com/shinshin86/mesh-avatar-studio>）。本家の更新は `git fetch upstream` → `git merge upstream/main` で取り込む。本家へは push しない。
 - アバター（`mesh-avatar-studio/projects/`）はどちらにも入らない。メンバーへは `.mavatar` で渡し、元データは別途バックアップする。
 
 ユーザーへの返答・ドキュメントは日本語で書く。
