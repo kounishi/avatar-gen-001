@@ -53,14 +53,14 @@ npx playwright install chromium   # render-lipsync・render-poses が使うブ�
 
 ```powershell
 # A. ナレーション音声が1本のファイルの場合（出力: projects\<アバター>\video\<音声名>.mov）
-npm run render-lipsync -- projects/coresys-001 ..\proj-NNN\narration.wav
+npm run render-lipsync -- projects/coresys-001 ..\proj-NNN\narration.wav --no-half-eyes
 
 # B. 行ごとの音声ファイルの場合: 先に結合してから書き出す（出力: projects\<アバター>\video\joined.mov）
 uv run tools/join-lines.py ..\proj-NNN
-npm run render-lipsync -- projects/coresys-001 ..\proj-NNN\joined.wav
+npm run render-lipsync -- projects/coresys-001 ..\proj-NNN\joined.wav --no-half-eyes
 ```
 
-- 半目を出したくない場合は `--no-half-eyes`、待機モーション（うとうと等）を止めたい場合は `--no-idle-motion` か `--calm` を付ける。
+- コマンド例には半目を出さない `--no-half-eyes` を付けている（半目も使う場合は外す）。待機モーション（うとうと等）を止めたい場合は `--no-idle-motion` か `--calm` を付ける。
 - 音声は**声だけ**のファイルを使う（BGM 入りだと声のない場面でも口が動く）。
 - その後 DaVinci Resolve で背景動画（V1）・アバター（V2）・ナレーション音声（A1）を先頭を揃えて重ねる。アバター動画の音声はミュートするか、書き出し時に `--no-audio` を付ける。詳細は `youtube動画作成手順.md` のセクション 7 を参照。
 
@@ -71,8 +71,8 @@ npm run render-lipsync -- projects/coresys-001 ..\proj-NNN\joined.wav
 uv run tools/join-lines.py ..\proj-NNN --map "コハク（ノーマル）=jahic-chan-001" --map "みちのくあいり（標準）=etc-bouya-001"
 
 # 2. アバターごとに透過動画を書き出す（出力: projects\<アバター>\video\joined.<アバター>.mov）
-npm run render-lipsync -- projects/jahic-chan-001 ..\proj-NNN\joined.wav --timeline ..\proj-NNN\joined.timeline.csv
-npm run render-lipsync -- projects/etc-bouya-001  ..\proj-NNN\joined.wav --timeline ..\proj-NNN\joined.timeline.csv
+npm run render-lipsync -- projects/jahic-chan-001 ..\proj-NNN\joined.wav --timeline ..\proj-NNN\joined.timeline.csv --no-half-eyes
+npm run render-lipsync -- projects/etc-bouya-001  ..\proj-NNN\joined.wav --timeline ..\proj-NNN\joined.timeline.csv --no-half-eyes
 ```
 
 その後 DaVinci Resolve で背景動画・2人のアバター・`joined.wav` を重ねて書き出す。詳細とオプションは `youtube動画作成手順.md` のセクション 7・8 を参照。
@@ -86,9 +86,9 @@ npm run render-lipsync -- projects/etc-bouya-001  ..\proj-NNN\joined.wav --timel
 uv run tools/join-lines.py ..\proj-NNN --map "話者1=アバター1" --map "話者2=アバター2" --map "話者3=アバター3"
 
 # 2. アバターごとに透過動画を書き出す（3本。出力: projects\<アバター>\video\joined.<アバター>.mov）
-npm run render-lipsync -- projects/アバター1 ..\proj-NNN\joined.wav --timeline ..\proj-NNN\joined.timeline.csv
-npm run render-lipsync -- projects/アバター2 ..\proj-NNN\joined.wav --timeline ..\proj-NNN\joined.timeline.csv
-npm run render-lipsync -- projects/アバター3 ..\proj-NNN\joined.wav --timeline ..\proj-NNN\joined.timeline.csv
+npm run render-lipsync -- projects/アバター1 ..\proj-NNN\joined.wav --timeline ..\proj-NNN\joined.timeline.csv --no-half-eyes
+npm run render-lipsync -- projects/アバター2 ..\proj-NNN\joined.wav --timeline ..\proj-NNN\joined.timeline.csv --no-half-eyes
+npm run render-lipsync -- projects/アバター3 ..\proj-NNN\joined.wav --timeline ..\proj-NNN\joined.timeline.csv --no-half-eyes
 ```
 
 - 同時に話す行は、ファイル名の話者名を `&` でつなぐ。3人同時は `話者1&話者2&話者3`、2人だけ同時なら `話者1&話者3` のように書ける（例: `031_話者1&話者2&話者3_こんにちは.wav`）。

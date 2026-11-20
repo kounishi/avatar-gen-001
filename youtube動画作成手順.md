@@ -149,7 +149,7 @@ CABLE を通った音はわずかに音質が落ちることがある。気に�
 
 ```powershell
 cd C:\Users\cores\source\repos\avatar-gen-001\mesh-avatar-studio
-npm run render-lipsync -- projects/coresys-001 "C:\path\to\narration.wav"
+npm run render-lipsync -- projects/coresys-001 "C:\path\to\narration.wav" --no-half-eyes
 ```
 
 出力: `projects/coresys-001/video/narration.mov`（背景透明・音声入りの ProRes 4444）
@@ -228,8 +228,8 @@ uv run tools/join-lines.py ..\proj-003 --map "コハク（ノーマル）=jahic-
 ### 3. アバターごとに書き出す
 
 ```powershell
-npm run render-lipsync -- projects/jahic-chan-001 ..\proj-003\joined.wav --timeline ..\proj-003\joined.timeline.csv
-npm run render-lipsync -- projects/etc-bouya-001  ..\proj-003\joined.wav --timeline ..\proj-003\joined.timeline.csv
+npm run render-lipsync -- projects/jahic-chan-001 ..\proj-003\joined.wav --timeline ..\proj-003\joined.timeline.csv --no-half-eyes
+npm run render-lipsync -- projects/etc-bouya-001  ..\proj-003\joined.wav --timeline ..\proj-003\joined.timeline.csv --no-half-eyes
 ```
 
 - 出力: `projects\<アバター>\video\joined.<アバター>.mov`（背景透過）。2本とも同じ長さで、時間がぴったり揃う。
