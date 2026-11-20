@@ -77,9 +77,29 @@ npm run render-lipsync -- projects/etc-bouya-001  ..\proj-NNN\joined.wav --timel
 
 その後 DaVinci Resolve で背景動画・2人のアバター・`joined.wav` を重ねて書き出す。詳細とオプションは `youtube動画作成手順.md` のセクション 7・8 を参照。
 
+## 3人掛け合い動画の基本フロー（PowerShell、`mesh-avatar-studio` で実行）
+
+2人のときと同じ仕組みで、`--map` と書き出しを3人分にする（4人以上も同様）。
+
+```powershell
+# 1. 行ごとの音声を結合し、タイミング表を作る（話者名=アバター名 を3つ指定）
+uv run tools/join-lines.py ..\proj-NNN --map "話者1=アバター1" --map "話者2=アバター2" --map "話者3=アバター3"
+
+# 2. アバターごとに透過動画を書き出す（3本。出力: projects\<アバター>\video\joined.<アバター>.mov）
+npm run render-lipsync -- projects/アバター1 ..\proj-NNN\joined.wav --timeline ..\proj-NNN\joined.timeline.csv
+npm run render-lipsync -- projects/アバター2 ..\proj-NNN\joined.wav --timeline ..\proj-NNN\joined.timeline.csv
+npm run render-lipsync -- projects/アバター3 ..\proj-NNN\joined.wav --timeline ..\proj-NNN\joined.timeline.csv
+```
+
+- 同時に話す行は、ファイル名の話者名を `&` でつなぐ。3人同時は `話者1&話者2&話者3`、2人だけ同時なら `話者1&話者3` のように書ける（例: `031_話者1&話者2&話者3_こんにちは.wav`）。
+- `join-lines.py` の最後に `Not mapped to a project:` が出たら、`--map` の話者名がファイル名と一致していない。
+- DaVinci Resolve では背景（V1）、アバター3本（V2〜V4）、`joined.wav`（A1）を先頭を揃えて重ね、アバター動画の音声はミュートする。
+- 書き出しは1人あたり約 20 分（3 分の音声）なので、3人で約 1 時間。まず `--duration 30` で3人分を試す。
+- 3人同時の行は、テスト音声で結合とタイミング表の分け方まで確認済み。3人分の動画の本番書き出しは未検証。
+
 ## 注意点
 
-- 音声ファイル名は `番号_話者名_セリフ.wav`。同時発話は話者名を `&` でつなぐ。
+- 音声ファイル名は `番号_話者名_セリフ.wav`。同時発話は話者名を `&` でつなぐ（3人以上も可）。
 - `joined.timeline.csv` の話者名はアバターのプロジェクトフォルダ名と一致させる（違う場合は `--speaker`）。
 - 書き出しは遅い（3 分の音声で 1 人あたり約 20 分）。まず `--duration 30` で試す。
 - ffmpeg は `C:\ffmpeg\bin\ffmpeg.exe`。
