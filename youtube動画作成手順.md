@@ -175,6 +175,7 @@ npm run render-lipsync -- projects/coresys-001 "C:\path\to\narration.wav" --no-h
 | `--seed 2` | まばたき・待機中の動きのパターンを変える |
 | `--no-idle-motion` | 小さな待機モーション（うとうと・ため息など）を止める。まばたきと反応モーションは残る |
 | `--calm` | 待機モーションと反応モーション（うなずき・照れなど）を両方止める。ゆらぎ・呼吸・まばたきだけになる |
+| `--idle-gain 0.5` | 待機中の首・頭・体の揺れの大きさ（既定 1。0.5 で半分）。話している間のうなずき、視線、まばたきは変わらない |
 | `--no-half-eyes` | 半目の絵を使わない。目は「開く」か「閉じる」だけになる（モーションはそのまま） |
 | `--no-audio` | 動画に音声を入れない |
 | `--overlay 名前:開始-終了` | 重ね絵（しぐさ）を指定した秒数の間だけ表示する。例 `--overlay hair_touch:12-15,40-43`（複数区間はカンマ区切り）。秒数は音声の先頭からの時間 |
@@ -185,8 +186,10 @@ npm run render-lipsync -- projects/coresys-001 "C:\path\to\narration.wav" --no-h
 重ね絵を持つアバター（現在は `coresys-002` の `hair_touch` = 髪に手をやるしぐさ）は、`--overlay` で指定した時間だけしぐさが出る。腕が上がる途中の動きはなく、約 0.3 秒のフェードで切り替わる。
 
 ```powershell
-npm run render-lipsync -- projects/coresys-002 ..\proj-NNN\joined.wav --no-half-eyes --overlay hair_touch:12-15,40-43
+npm run render-lipsync -- projects/coresys-002 ..\proj-NNN\joined.wav --no-half-eyes --idle-gain 0.5 --overlay hair_touch:12-15,40-43
 ```
+
+- `coresys-002` は待機中の首・頭の揺れが大きく見えやすいので、`--idle-gain 0.5` を付ける（さらに小さくするなら 0.3 など）。
 
 - しぐさを出す時間は、`joined.timeline.csv` の開始・終了秒を見て決めるとよい（例: あるセリフの間だけ）。
 - 1回 2〜4 秒程度、動画全体で数回にとどめると自然に見える。
