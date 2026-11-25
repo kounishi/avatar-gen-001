@@ -75,6 +75,8 @@ npm run render-lipsync -- projects/jahic-chan-001 ..\proj-NNN\joined.wav --timel
 npm run render-lipsync -- projects/etc-bouya-001  ..\proj-NNN\joined.wav --timeline ..\proj-NNN\joined.timeline.csv --no-half-eyes
 ```
 
+- 掛け合いでは全員の書き出しに `--timeline` を必ず付ける（付け忘れると全員のセリフで口が動く。書き出し最初の `speaking ○% of the time` が 9 割近くなら付け忘れ）。`coresys-002` を使う場合は `--idle-gain 0.5` を足し、`--overlay` の秒数は coresys-002 が話している行の中から選ぶ。
+
 その後 DaVinci Resolve で背景動画・2人のアバター・`joined.wav` を重ねて書き出す。詳細とオプションは `youtube動画作成手順.md` のセクション 7・8 を参照。
 
 ## 3人掛け合い動画の基本フロー（PowerShell、`mesh-avatar-studio` で実行）

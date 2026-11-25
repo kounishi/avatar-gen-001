@@ -191,6 +191,14 @@ npm run render-lipsync -- projects/coresys-002 ..\proj-NNN\joined.wav --no-half-
 
 - `coresys-002` は待機中の首・頭の揺れが大きく見えやすいので、`--idle-gain 0.5` を付ける（さらに小さくするなら 0.3 など）。
 
+掛け合い動画（2人・3人）で使う場合は、ほかのアバターと同じく **`--timeline` を必ず付ける**。付け忘れると、ほかの話者のセリフでも口が動く（書き出し最初の `speaking ○% of the time` が 9 割近くになっていたら付け忘れ）。
+
+```powershell
+npm run render-lipsync -- projects/coresys-002 ..\proj-NNN\joined.wav --timeline ..\proj-NNN\joined.timeline.csv --no-half-eyes --idle-gain 0.5 --overlay hair_touch:12-15,44-48
+```
+
+- 掛け合いでは、しぐさの時間を `joined.timeline.csv` で **coresys-002 が話している行**の開始〜終了秒の中から選ぶ（ほかの人が話している最中に入れると、聞き役の最中のしぐさになる）。
+
 - しぐさを出す時間は、`joined.timeline.csv` の開始・終了秒を見て決めるとよい（例: あるセリフの間だけ）。
 - 1回 2〜4 秒程度、動画全体で数回にとどめると自然に見える。
 - しぐさの最中も首振り・口パク・まばたきは続き、手は頭に付いて動く。
