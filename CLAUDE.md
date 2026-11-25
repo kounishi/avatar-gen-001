@@ -13,7 +13,7 @@
 | パス | 内容 |
 |---|---|
 | `mesh-avatar-studio/` | アバターエディタ本体（独立した git リポジトリ）。作業ルールは `mesh-avatar-studio/CLAUDE.md` → `AGENTS.md` に従う |
-| `mesh-avatar-studio/projects/<アバター名>/` | アバター（`coresys-001`、`coresys-002`、`jahic-chan-001`、`etc-bouya-001`、`etc-girl`）。`coresys-002` は重ね絵 `hair_touch`（髪に手をやるしぐさ）付きで、書き出し時は `--idle-gain 0.5`（待機中の首・頭の揺れを半分）を付ける。重ね絵は `work/make-overlay.py` で `work/overlays/` に作り、`built/overlays/` にコピーする（build-layers の後に再コピー） |
+| `mesh-avatar-studio/projects/<アバター名>/` | アバター（`coresys-001`、`coresys-002`、`jahic-chan-001`、`etc-bouya-001`、`etc-girl`）。`coresys-002` は重ね絵 `hair_touch`（髪を耳にかけるしぐさ。途中の絵 `hair_touch_1`〜`_3` 付き）付きで、書き出し時は `--idle-gain 0.5`（待機中の首・頭の揺れを半分）を付ける。重ね絵は `work/make-overlay.py`（最後の絵）→ `work/make-steps.py`（途中の絵。元絵は `gesture/step1〜3.png`）の順に実行して `work/overlays/` に作り、`built/overlays/` にコピーする（build-layers の後に再コピー） |
 | `mesh-avatar-studio/tools/` | `join-lines.py`（行音声の結合）、`render-lipsync.mjs`（口パク動画書き出し）など |
 | `proj-NNN/` | 動画1本ぶんの素材。行ごとの音声 `番号_話者名_セリフ.wav`、結合結果 `joined.wav` と `joined.timeline.csv` |
 | `JAHIC_*.txt` | 台本。`アバター名,セリフ` の CSV 形式（YMM 読み込み用） |
@@ -60,7 +60,7 @@ uv run tools/join-lines.py ..\proj-NNN
 npm run render-lipsync -- projects/coresys-001 ..\proj-NNN\joined.wav --no-half-eyes
 ```
 
-- コマンド例には半目を出さない `--no-half-eyes` を付けている（半目も使う場合は外す）。しぐさ（重ね絵）を入れる場合は `--overlay hair_touch:12-15,40-43` のように秒数で指定する（`coresys-002` のみ。`youtube動画作成手順.md` セクション 7）。待機中の首・頭の揺れは `--idle-gain 0.5` のように小さくできる（`coresys-002` では付ける）。待機モーション（うとうと等）を止めたい場合は `--no-idle-motion` か `--calm` を付ける。
+- コマンド例には半目を出さない `--no-half-eyes` を付けている（半目も使う場合は外す）。しぐさ（重ね絵）を入れる場合は `--gesture hair_touch:12-15,40-43` のように秒数で指定する（腕を上げる → 保つ → 下ろす）（`coresys-002` のみ。`youtube動画作成手順.md` セクション 7）。待機中の首・頭の揺れは `--idle-gain 0.5` のように小さくできる（`coresys-002` では付ける）。待機モーション（うとうと等）を止めたい場合は `--no-idle-motion` か `--calm` を付ける。
 - 音声は**声だけ**のファイルを使う（BGM 入りだと声のない場面でも口が動く）。
 - その後 DaVinci Resolve で背景動画（V1）・アバター（V2）・ナレーション音声（A1）を先頭を揃えて重ねる。アバター動画の音声はミュートするか、書き出し時に `--no-audio` を付ける。詳細は `youtube動画作成手順.md` のセクション 7 を参照。
 
@@ -75,7 +75,7 @@ npm run render-lipsync -- projects/jahic-chan-001 ..\proj-NNN\joined.wav --timel
 npm run render-lipsync -- projects/etc-bouya-001  ..\proj-NNN\joined.wav --timeline ..\proj-NNN\joined.timeline.csv --no-half-eyes
 ```
 
-- 掛け合いでは全員の書き出しに `--timeline` を必ず付ける（付け忘れると全員のセリフで口が動く。書き出し最初の `speaking ○% of the time` が 9 割近くなら付け忘れ）。`coresys-002` を使う場合は `--idle-gain 0.5` を足し、`--overlay` の秒数は coresys-002 が話している行の中から選ぶ。
+- 掛け合いでは全員の書き出しに `--timeline` を必ず付ける（付け忘れると全員のセリフで口が動く。書き出し最初の `speaking ○% of the time` が 9 割近くなら付け忘れ）。`coresys-002` を使う場合は `--idle-gain 0.5` を足し、`--gesture` の秒数は coresys-002 が話している行の中から選ぶ。
 
 その後 DaVinci Resolve で背景動画・2人のアバター・`joined.wav` を重ねて書き出す。詳細とオプションは `youtube動画作成手順.md` のセクション 7・8 を参照。
 

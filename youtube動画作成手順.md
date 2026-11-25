@@ -180,21 +180,27 @@ npm run render-lipsync -- projects/coresys-001 "C:\path\to\narration.wav" --no-h
 | `--no-audio` | 動画に音声を入れない |
 | `--overlay 名前:開始-終了` | 重ね絵（しぐさ）を指定した秒数の間だけ表示する。例 `--overlay hair_touch:12-15,40-43`（複数区間はカンマ区切り）。秒数は音声の先頭からの時間 |
 | `--overlay-fade 0.3` | 重ね絵が現れる・消えるときのフェード時間（秒、既定 0.3） |
+| `--gesture hair_touch:12-15` | しぐさを途中の絵つきで再生する（腕を上げる → 保つ → 下ろす）。区間はカンマ区切りで複数可 |
+| `--gesture-move 0.5` | `--gesture` で腕を上げる秒数（既定 0.5、下ろすのはその 8 割） |
 
 ### しぐさ（重ね絵）を入れる
 
-重ね絵を持つアバター（現在は `coresys-002` の `hair_touch` = 髪に手をやるしぐさ）は、`--overlay` で指定した時間だけしぐさが出る。腕が上がる途中の動きはなく、約 0.3 秒のフェードで切り替わる。
+重ね絵を持つアバター（現在は `coresys-002` の `hair_touch` = 髪を耳にかけるしぐさ）は、`--gesture` で指定した時間だけしぐさが出る。腕を上げる途中の絵（3枚）を順に切り替えるので、腕が下から上がって髪を耳にかけ、最後にまた下ろす動きになる（上げるのに約 0.5 秒、下ろすのに約 0.4 秒）。
 
 ```powershell
-npm run render-lipsync -- projects/coresys-002 ..\proj-NNN\joined.wav --no-half-eyes --idle-gain 0.5 --overlay hair_touch:12-15,40-43
+npm run render-lipsync -- projects/coresys-002 ..\proj-NNN\joined.wav --no-half-eyes --idle-gain 0.5 --gesture hair_touch:12-15,40-43
 ```
+
+- `hair_touch:12-15` は「12 秒から腕を上げ始め、15 秒で下ろし終わる」という意味。
+- 動きの速さは `--gesture-move 0.7` のように変えられる（腕を上げる秒数。既定 0.5、下ろすのはその 8 割）。
+- 以前の `--overlay hair_touch:12-15` も使える（途中の絵なしで、最後の絵だけがフェードで出入りする）。
 
 - `coresys-002` は待機中の首・頭の揺れが大きく見えやすいので、`--idle-gain 0.5` を付ける（さらに小さくするなら 0.3 など）。
 
 掛け合い動画（2人・3人）で使う場合は、ほかのアバターと同じく **`--timeline` を必ず付ける**。付け忘れると、ほかの話者のセリフでも口が動く（書き出し最初の `speaking ○% of the time` が 9 割近くになっていたら付け忘れ）。
 
 ```powershell
-npm run render-lipsync -- projects/coresys-002 ..\proj-NNN\joined.wav --timeline ..\proj-NNN\joined.timeline.csv --no-half-eyes --idle-gain 0.5 --overlay hair_touch:12-15,44-48
+npm run render-lipsync -- projects/coresys-002 ..\proj-NNN\joined.wav --timeline ..\proj-NNN\joined.timeline.csv --no-half-eyes --idle-gain 0.5 --gesture hair_touch:12-15,44-48
 ```
 
 - 掛け合いでは、しぐさの時間を `joined.timeline.csv` で **coresys-002 が話している行**の開始〜終了秒の中から選ぶ（ほかの人が話している最中に入れると、聞き役の最中のしぐさになる）。
