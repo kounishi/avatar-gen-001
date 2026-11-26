@@ -13,7 +13,7 @@
 | パス | 内容 |
 |---|---|
 | `mesh-avatar-studio/` | アバターエディタ本体（独立した git リポジトリ）。作業ルールは `mesh-avatar-studio/CLAUDE.md` → `AGENTS.md` に従う |
-| `mesh-avatar-studio/projects/<アバター名>/` | アバター（`coresys-001`、`coresys-002`、`jahic-chan-001`、`etc-bouya-001`、`etc-girl`）。`coresys-002` は重ね絵 `hair_touch`（髪を耳にかけるしぐさ。途中の絵 `hair_touch_1`〜`_3` 付き）付きで、書き出し時は `--idle-gain 0.5`（待機中の首・頭の揺れを半分）を付ける。重ね絵は `work/make-overlay.py`（最後の絵）→ `work/make-steps.py`（途中の絵。元絵は `gesture/step1〜3.png`）の順に実行して `work/overlays/` に作り、`built/overlays/` にコピーする（build-layers の後に再コピー） |
+| `mesh-avatar-studio/projects/<アバター名>/` | アバター（`coresys-001`、`coresys-002`、`jahic-chan-001`、`etc-bouya-001`、`etc-girl`）。`coresys-002` は重ね絵 `hair_touch`（髪を耳にかけるしぐさ。途中の絵 `hair_touch_1`〜`_7` 付き）付きで、書き出し時は `--idle-gain 0.5`（待機中の首・頭の揺れを半分）を付ける。重ね絵は `work/make-overlay.py`（最後の絵）→ `work/make-steps.py`（途中の絵。元絵は `gesture/` の mid0・step1・mid1・step2・mid2・step3・mid3）の順に実行して `work/overlays/` に作り、`built/overlays/` にコピーする（build-layers の後に再コピー） |
 | `mesh-avatar-studio/tools/` | `join-lines.py`（行音声の結合）、`render-lipsync.mjs`（口パク動画書き出し）など |
 | `proj-NNN/` | 動画1本ぶんの素材。行ごとの音声 `番号_話者名_セリフ.wav`、結合結果 `joined.wav` と `joined.timeline.csv` |
 | `JAHIC_*.txt` | 台本。`アバター名,セリフ` の CSV 形式（YMM 読み込み用） |
